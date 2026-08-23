@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useStore } from "@/lib/store";
+import { clearSiteCache } from "@/lib/clearCache";
 
 export default function AdminSettingsPage() {
   const settings = useStore((s) => s.settings);
@@ -96,7 +97,30 @@ export default function AdminSettingsPage() {
         <button className="btn-primary px-6 py-3 text-sm rounded-sm">Save Settings</button>
         {saved && <span className="ml-4 text-sm text-green-700">Settings saved ✓</span>}
       </form>
+
+      <section className="mt-12 pt-8 border-t border-taupe">
+        <h2 className="font-display text-xl mb-2 text-oxblood">Danger Zone</h2>
+        <p className="text-xs text-ink/60 mb-4 max-w-lg leading-relaxed">
+          Clears your cart, wishlist, and saved login on this browser, then reloads. Useful if the storefront
+          is showing stale or incorrect data after a database change. This does not delete anything from Supabase.
+        </p>
+        <ClearCacheButton />
+      </section>
     </div>
+  );
+}
+
+function ClearCacheButton() {
+  const [cleared, setCleared] = useState(false);
+  function handleClick() {
+    clearSiteCache();
+    setCleared(true);
+    setTimeout(() => window.location.reload(), 900);
+  }
+  return (
+    <button onClick={handleClick} className="btn-outline px-5 py-2.5 text-sm rounded-sm border-oxblood text-oxblood hover:bg-oxblood hover:text-ivory">
+      {cleared ? "Cleared — reloading…" : "Clear local cache & reload"}
+    </button>
   );
 }
 

@@ -25,7 +25,7 @@ export default function Footer() {
           ["Track Order", "/track-order"], ["Refund Policy", "/refund-policy"], ["Terms & Conditions", "/terms"], ["Privacy Policy", "/privacy-policy"],
         ]} />
         <FooterCol title="Account" links={[
-          ["My Account", "/account"], ["Wishlist", "/wishlist"], ["Cart", "/cart"], ["Admin Login", "/admin/login"],
+          ["My Account", "/account"], ["Wishlist", "/wishlist"], ["Cart", "/cart"], ["Admin Login", "/admin/login"], ["Clear Cache", "/clear-cache"],
         ]} />
       </div>
       <div className="border-t border-ivory/10 text-center text-xs py-5 text-ivory/50">
