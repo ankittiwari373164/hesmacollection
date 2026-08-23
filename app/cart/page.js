@@ -1,7 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { PRODUCTS } from "@/lib/seed";
 import { useStore, moneyFmt } from "@/lib/store";
 import { Trash2 } from "lucide-react";
 
@@ -19,7 +18,7 @@ export default function CartPage() {
   const [msg, setMsg] = useState(null);
 
   const items = useMemo(
-    () => cart.map((c) => ({ ...c, product: products.find((p) => p.id === c.productId) || PRODUCTS.find((p) => p.id === c.productId) })).filter((i) => i.product),
+    () => cart.map((c) => ({ ...c, product: products.find((p) => p.id === c.productId) })).filter((i) => i.product),
     [cart, products]
   );
 

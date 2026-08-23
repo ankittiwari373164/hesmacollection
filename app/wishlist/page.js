@@ -1,12 +1,12 @@
 "use client";
-import { PRODUCTS } from "@/lib/seed";
 import { useStore } from "@/lib/store";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 
 export default function WishlistPage() {
   const wishlist = useStore((s) => s.wishlist);
-  const items = PRODUCTS.filter((p) => wishlist.includes(p.id));
+  const products = useStore((s) => s.products);
+  const items = products.filter((p) => wishlist.includes(p.id));
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">

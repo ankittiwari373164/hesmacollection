@@ -1,14 +1,12 @@
 "use client";
+"use client";
 import Link from "next/link";
-import { PRODUCTS, CATEGORIES, BUNDLES } from "@/lib/seed";
+import { CATEGORIES, BUNDLES } from "@/lib/seed";
 import ProductCard from "@/components/ProductCard";
 import ResponsiveRow from "@/components/ResponsiveRow";
 import { SectionHeader, BangleDivider } from "@/components/Section";
+import { useStore } from "@/lib/store";
 import { Star } from "lucide-react";
-
-function byCat(slug, n) {
-  return PRODUCTS.filter((p) => p.category === slug).slice(0, n);
-}
 
 function ProductRow({ products }) {
   return (
@@ -22,9 +20,11 @@ function ProductRow({ products }) {
 }
 
 export default function Home() {
-  const buy1get2 = PRODUCTS.filter((p) => p.buy1get2).slice(0, 4);
-  const newArrivals = PRODUCTS.filter((p) => p.newArrival).slice(0, 4);
-  const featured = PRODUCTS.filter((p) => p.featured).slice(0, 4);
+  const products = useStore((s) => s.products);
+  const byCat = (slug, n) => products.filter((p) => p.category === slug).slice(0, n);
+  const buy1get2 = products.filter((p) => p.buy1get2).slice(0, 4);
+  const newArrivals = products.filter((p) => p.newArrival).slice(0, 4);
+  const featured = products.filter((p) => p.featured).slice(0, 4);
 
   return (
     <div>
@@ -60,6 +60,12 @@ export default function Home() {
 
       <div className="max-w-7xl mx-auto px-6">
         <BangleDivider />
+
+        {products.length === 0 && (
+          <div className="text-center py-6 mb-6 text-sm text-ink/50 bg-parchment/50 rounded-sm">
+            Loading the latest collection…
+          </div>
+        )}
 
         {/* BUILD YOUR BUNDLE */}
         <section id="section-1" className="scroll-mt-28">

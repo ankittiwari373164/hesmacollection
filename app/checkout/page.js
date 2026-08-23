@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PRODUCTS } from "@/lib/seed";
 import { useStore, moneyFmt } from "@/lib/store";
 
 export default function CheckoutPage() {
@@ -23,7 +22,7 @@ export default function CheckoutPage() {
   }, [hydrated, currentUser, router]);
 
   const items = useMemo(
-    () => cart.map((c) => ({ ...c, product: products.find((p) => p.id === c.productId) || PRODUCTS.find((p) => p.id === c.productId) })).filter((i) => i.product),
+    () => cart.map((c) => ({ ...c, product: products.find((p) => p.id === c.productId) })).filter((i) => i.product),
     [cart, products]
   );
   const subtotal = items.reduce((a, i) => a + i.product.price * i.qty, 0);

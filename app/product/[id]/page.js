@@ -1,7 +1,6 @@
 "use client";
 import { use, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PRODUCTS } from "@/lib/seed";
 import { useStore, moneyFmt } from "@/lib/store";
 import ProductCard from "@/components/ProductCard";
 import { Heart, Star, Truck, ShieldCheck, RotateCcw } from "lucide-react";
@@ -13,7 +12,7 @@ export default function ProductPage({ params }) {
   const { id } = use(params);
   const router = useRouter();
   const products = useStore((s) => s.products);
-  const product = products.find((p) => p.id === id) || PRODUCTS.find((p) => p.id === id);
+  const product = products.find((p) => p.id === id);
   const addToCart = useStore((s) => s.addToCart);
   const toggleWishlist = useStore((s) => s.toggleWishlist);
   const wishlist = useStore((s) => s.wishlist);
@@ -26,7 +25,7 @@ export default function ProductPage({ params }) {
   }
 
   const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100);
-  const related = PRODUCTS.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
+  const related = products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
   const isWished = wishlist.includes(product.id);
 
   function handleBuyNow() {

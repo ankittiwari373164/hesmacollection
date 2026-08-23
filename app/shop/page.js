@@ -1,27 +1,29 @@
 "use client";
 import { Suspense, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { PRODUCTS, CATEGORIES } from "@/lib/seed";
+import { CATEGORIES } from "@/lib/seed";
 import ProductCard from "@/components/ProductCard";
+import { useStore } from "@/lib/store";
 
 function ShopInner() {
   const params = useSearchParams();
   const initialCategory = params.get("category") || "all";
   const initialQ = params.get("q") || "";
+  const products = useStore((s) => s.products);
   const [category, setCategory] = useState(initialCategory);
   const [q, setQ] = useState(initialQ);
   const [sort, setSort] = useState("featured");
   const [maxPrice, setMaxPrice] = useState(3000);
 
   const filtered = useMemo(() => {
-    let list = PRODUCTS.filter((p) => (category === "all" ? true : p.category === category));
+    let list = products.filter((p) => (category === "all" ? true : p.category === category));
     if (q) list = list.filter((p) => p.name.toLowerCase().includes(q.toLowerCase()));
     list = list.filter((p) => p.price <= maxPrice);
     if (sort === "price-asc") list = [...list].sort((a, b) => a.price - b.price);
     if (sort === "price-desc") list = [...list].sort((a, b) => b.price - a.price);
     if (sort === "rating") list = [...list].sort((a, b) => b.rating - a.rating);
     return list;
-  }, [category, q, sort, maxPrice]);
+  }, [products, category, q, sort, maxPrice]);
 
   const categoryName = CATEGORIES.find((c) => c.slug === category)?.name;
 
