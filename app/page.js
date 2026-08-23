@@ -69,21 +69,18 @@ export default function Home() {
         {/* BUILD YOUR BUNDLE */}
         <section id="section-1" className="scroll-mt-28">
           <SectionHeader eyebrow="Mix & save" title="Build Your Bundle" />
-          <ResponsiveRow
-            items={BUNDLES}
-            keyFn={(b) => b.label}
-            gridClassName="sm:grid-cols-2 lg:grid-cols-4"
-            itemWidthClass="w-[62vw] sm:w-[220px] lg:w-[260px]"
-            renderItem={(b) => (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+            {BUNDLES.map((b) => (
               <Link
+                key={b.label}
                 href="/shop"
-                className="bg-parchment rounded-sm p-8 text-center card-hover flex flex-col items-center gap-2 h-full justify-center"
+                className="bg-parchment rounded-sm p-8 text-center card-hover flex flex-col items-center gap-2"
               >
                 <span className="eyebrow">{b.label}</span>
                 <span className="font-display text-3xl text-oxblood">{b.price}</span>
               </Link>
-            )}
-          />
+            ))}
+          </div>
         </section>
 
         <BangleDivider />
@@ -203,25 +200,21 @@ export default function Home() {
             <div className="eyebrow mb-2">Real stories</div>
             <h2 className="font-display text-3xl sm:text-4xl">Let customers speak for us</h2>
           </div>
-          <ResponsiveRow
-            items={[
+          <div className="grid sm:grid-cols-3 gap-6">
+            {[
               { name: "Ananya R.", text: "The anti-tarnish claim is real — I've worn my earrings daily for six months, still gold." },
               { name: "Priya S.", text: "Ordered the bracelet stack for my sister's birthday. Packaging felt genuinely premium." },
               { name: "Meera K.", text: "Customer support helped me track and re-deliver my order within a day. Excellent service." },
-            ]}
-            keyFn={(t) => t.name}
-            gridClassName="sm:grid-cols-3"
-            itemWidthClass="w-[80vw] sm:w-[320px]"
-            renderItem={(t) => (
-              <div className="bg-ivory rounded-sm p-6 border border-taupe h-full">
+            ].map((t) => (
+              <div key={t.name} className="bg-ivory rounded-sm p-6 border border-taupe">
                 <div className="flex gap-1 text-bronze mb-3">
                   {Array.from({ length: 5 }).map((_, i) => <Star key={i} size={14} fill="#B98D3E" />)}
                 </div>
                 <p className="text-sm text-ink/80 leading-relaxed mb-4">&ldquo;{t.text}&rdquo;</p>
                 <div className="text-xs eyebrow">{t.name}</div>
               </div>
-            )}
-          />
+            ))}
+          </div>
         </div>
       </section>
     </div>
