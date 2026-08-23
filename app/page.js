@@ -14,7 +14,6 @@ function ProductRow({ products }) {
       items={products}
       keyFn={(p) => p.id}
       renderItem={(p) => <ProductCard product={p} />}
-      gridClassName="sm:grid-cols-2 lg:grid-cols-4"
     />
   );
 }
@@ -74,7 +73,7 @@ export default function Home() {
             items={BUNDLES}
             keyFn={(b) => b.label}
             gridClassName="sm:grid-cols-2 lg:grid-cols-4"
-            itemWidthClass="w-[62vw]"
+            itemWidthClass="w-[62vw] sm:w-[220px] lg:w-[260px]"
             renderItem={(b) => (
               <Link
                 href="/shop"
@@ -96,7 +95,7 @@ export default function Home() {
             items={CATEGORIES}
             keyFn={(c) => c.slug}
             gridClassName="sm:grid-cols-4 lg:grid-cols-5"
-            itemWidthClass="w-[30vw]"
+            itemWidthClass="w-[30vw] sm:w-[150px] lg:w-[170px]"
             renderItem={(c) => (
               <Link href={`/shop?category=${c.slug}`} className="group text-center block">
                 <div className="overflow-hidden rounded-full aspect-square">
@@ -212,7 +211,7 @@ export default function Home() {
             ]}
             keyFn={(t) => t.name}
             gridClassName="sm:grid-cols-3"
-            itemWidthClass="w-[80vw]"
+            itemWidthClass="w-[80vw] sm:w-[320px]"
             renderItem={(t) => (
               <div className="bg-ivory rounded-sm p-6 border border-taupe h-full">
                 <div className="flex gap-1 text-bronze mb-3">
