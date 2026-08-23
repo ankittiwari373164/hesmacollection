@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useStore } from "@/lib/store";
 import { LayoutDashboard, Package, ClipboardList, Tag, Settings, LogOut } from "lucide-react";
 
@@ -17,16 +17,22 @@ export default function AdminShell({ children }) {
   const pathname = usePathname();
   const router = useRouter();
   const isAdmin = useStore((s) => s.isAdmin);
+  const adminSessionChecked = useStore((s) => s.adminSessionChecked);
+  const checkAdminSession = useStore((s) => s.checkAdminSession);
   const adminLogout = useStore((s) => s.adminLogout);
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => { setHydrated(true); }, []);
 
   useEffect(() => {
-    if (hydrated && !isAdmin) router.replace("/admin/login");
-  }, [hydrated, isAdmin, router]);
+    // isAdmin no longer persists across a refresh (no localStorage), so on
+    // every mount we re-verify against the real httpOnly session cookie set
+    // by /api/admin/login. This is also more secure than trusting a client flag.
+    checkAdminSession();
+  }, [checkAdminSession]);
 
-  if (!hydrated || !isAdmin) {
+  useEffect(() => {
+    if (adminSessionChecked && !isAdmin) router.replace("/admin/login");
+  }, [adminSessionChecked, isAdmin, router]);
+
+  if (!adminSessionChecked || !isAdmin) {
     return <div className="max-w-md mx-auto px-6 py-24 text-center text-ink/50 text-sm">Checking admin session…</div>;
   }
 
