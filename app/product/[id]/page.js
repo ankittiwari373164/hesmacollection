@@ -7,6 +7,7 @@ import ProductCard from "@/components/ProductCard";
 import { Heart, Star, Truck, ShieldCheck, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import ProductGallery from "@/components/ProductGallery";
+import ResponsiveRow from "@/components/ResponsiveRow";
 
 export default function ProductPage({ params }) {
   const { id } = use(params);
@@ -101,9 +102,12 @@ export default function ProductPage({ params }) {
       {related.length > 0 && (
         <div className="mt-24">
           <h2 className="font-display text-3xl mb-8">You may also like</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {related.map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <ResponsiveRow
+            items={related}
+            keyFn={(p) => p.id}
+            gridClassName="sm:grid-cols-2 lg:grid-cols-4"
+            renderItem={(p) => <ProductCard product={p} />}
+          />
         </div>
       )}
     </div>

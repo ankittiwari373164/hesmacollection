@@ -1,11 +1,24 @@
+"use client";
 import Link from "next/link";
 import { PRODUCTS, CATEGORIES, BUNDLES } from "@/lib/seed";
 import ProductCard from "@/components/ProductCard";
+import ResponsiveRow from "@/components/ResponsiveRow";
 import { SectionHeader, BangleDivider } from "@/components/Section";
 import { Star } from "lucide-react";
 
 function byCat(slug, n) {
   return PRODUCTS.filter((p) => p.category === slug).slice(0, n);
+}
+
+function ProductRow({ products }) {
+  return (
+    <ResponsiveRow
+      items={products}
+      keyFn={(p) => p.id}
+      renderItem={(p) => <ProductCard product={p} />}
+      gridClassName="sm:grid-cols-2 lg:grid-cols-4"
+    />
+  );
 }
 
 export default function Home() {
@@ -51,18 +64,21 @@ export default function Home() {
         {/* BUILD YOUR BUNDLE */}
         <section id="section-1" className="scroll-mt-28">
           <SectionHeader eyebrow="Mix & save" title="Build Your Bundle" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-            {BUNDLES.map((b) => (
+          <ResponsiveRow
+            items={BUNDLES}
+            keyFn={(b) => b.label}
+            gridClassName="sm:grid-cols-2 lg:grid-cols-4"
+            itemWidthClass="w-[62vw]"
+            renderItem={(b) => (
               <Link
-                key={b.label}
                 href="/shop"
-                className="bg-parchment rounded-sm p-8 text-center card-hover flex flex-col items-center gap-2"
+                className="bg-parchment rounded-sm p-8 text-center card-hover flex flex-col items-center gap-2 h-full justify-center"
               >
                 <span className="eyebrow">{b.label}</span>
                 <span className="font-display text-3xl text-oxblood">{b.price}</span>
               </Link>
-            ))}
-          </div>
+            )}
+          />
         </section>
 
         <BangleDivider />
@@ -70,16 +86,20 @@ export default function Home() {
         {/* SHOP BY COLLECTION */}
         <section id="section-2" className="scroll-mt-28 bg-parchment/40 rounded-2xl px-4 sm:px-8 py-10 -mx-4 sm:-mx-8">
           <SectionHeader eyebrow="Curated for you" title="Shop by Collection" />
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-5">
-            {CATEGORIES.map((c) => (
-              <Link key={c.slug} href={`/shop?category=${c.slug}`} className="group text-center">
+          <ResponsiveRow
+            items={CATEGORIES}
+            keyFn={(c) => c.slug}
+            gridClassName="sm:grid-cols-4 lg:grid-cols-5"
+            itemWidthClass="w-[30vw]"
+            renderItem={(c) => (
+              <Link href={`/shop?category=${c.slug}`} className="group text-center block">
                 <div className="overflow-hidden rounded-full aspect-square">
                   <img src={c.img} alt={c.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 </div>
                 <div className="text-xs mt-3 leading-tight">{c.name} →</div>
               </Link>
-            ))}
-          </div>
+            )}
+          />
         </section>
 
         <BangleDivider />
@@ -87,9 +107,7 @@ export default function Home() {
         {/* BUY 1 GET 2 */}
         <section id="section-3" className="scroll-mt-28">
           <SectionHeader eyebrow="Limited time" title="Buy 1 Get 2" viewAllHref="/shop" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {buy1get2.map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <ProductRow products={buy1get2} />
         </section>
 
         <BangleDivider />
@@ -97,9 +115,7 @@ export default function Home() {
         {/* BABY SIZE / THIN WRIST */}
         <section id="section-4" className="scroll-mt-28 bg-parchment/40 rounded-2xl px-4 sm:px-8 py-10 -mx-4 sm:-mx-8">
           <SectionHeader eyebrow="For delicate wrists" title="Baby Size / Thin Wrist Bracelets" viewAllHref="/shop?category=bracelets-thin" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {byCat("bracelets-thin", 4).map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <ProductRow products={byCat("bracelets-thin", 6)} />
         </section>
 
         <BangleDivider />
@@ -107,9 +123,7 @@ export default function Home() {
         {/* WATCHES */}
         <section id="section-5" className="scroll-mt-28">
           <SectionHeader eyebrow="Timeless" title="Watches" viewAllHref="/shop?category=watches" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {byCat("watches", 4).map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <ProductRow products={byCat("watches", 6)} />
         </section>
 
         <BangleDivider />
@@ -117,9 +131,7 @@ export default function Home() {
         {/* NEW ARRIVALS */}
         <section id="section-6" className="scroll-mt-28 bg-parchment/40 rounded-2xl px-4 sm:px-8 py-10 -mx-4 sm:-mx-8">
           <SectionHeader eyebrow="Fresh in" title="New Arrivals" viewAllHref="/shop" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {newArrivals.length ? newArrivals.map((p) => <ProductCard key={p.id} product={p} />) : featured.map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <ProductRow products={newArrivals.length ? newArrivals : featured} />
         </section>
 
         <BangleDivider />
@@ -127,9 +139,7 @@ export default function Home() {
         {/* EARRINGS */}
         <section id="section-7" className="scroll-mt-28">
           <SectionHeader eyebrow="Sparkle daily" title="Anti Tarnish Earrings" viewAllHref="/shop?category=earrings" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {byCat("earrings", 4).map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <ProductRow products={byCat("earrings", 6)} />
         </section>
 
         <BangleDivider />
@@ -137,9 +147,7 @@ export default function Home() {
         {/* NECKLACES */}
         <section id="section-8" className="scroll-mt-28 bg-parchment/40 rounded-2xl px-4 sm:px-8 py-10 -mx-4 sm:-mx-8">
           <SectionHeader eyebrow="Because your neck deserves it" title="Necklaces" viewAllHref="/shop?category=necklaces" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {byCat("necklaces", 4).map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <ProductRow products={byCat("necklaces", 6)} />
         </section>
 
         <BangleDivider />
@@ -147,9 +155,7 @@ export default function Home() {
         {/* RINGS */}
         <section id="section-9" className="scroll-mt-28">
           <SectionHeader eyebrow="A little reminder to love yourself" title="Rings" viewAllHref="/shop?category=rings" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {byCat("rings", 4).map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <ProductRow products={byCat("rings", 6)} />
         </section>
 
         <BangleDivider />
@@ -157,9 +163,7 @@ export default function Home() {
         {/* BRACELETS */}
         <section id="section-10" className="scroll-mt-28 bg-parchment/40 rounded-2xl px-4 sm:px-8 py-10 -mx-4 sm:-mx-8">
           <SectionHeader eyebrow="Twinkle on your wrist" title="Bracelets" viewAllHref="/shop?category=bracelets" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {byCat("bracelets", 4).map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <ProductRow products={byCat("bracelets", 6)} />
         </section>
 
         <BangleDivider />
@@ -167,9 +171,7 @@ export default function Home() {
         {/* FOUR LEAF */}
         <section id="section-11" className="scroll-mt-28">
           <SectionHeader eyebrow="Lucky charm" title="Four Leaf" viewAllHref="/shop?category=four-leaf" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {byCat("four-leaf", 4).map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <ProductRow products={byCat("four-leaf", 6)} />
         </section>
 
         <BangleDivider />
@@ -177,9 +179,7 @@ export default function Home() {
         {/* GIFT HAMPERS */}
         <section id="section-12" className="scroll-mt-28 bg-parchment/40 rounded-2xl px-4 sm:px-8 py-10 -mx-4 sm:-mx-8">
           <SectionHeader eyebrow="Gifting made easy" title="Gift Hampers" viewAllHref="/shop?category=gift-hampers" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {byCat("gift-hampers", 4).map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <ProductRow products={byCat("gift-hampers", 6)} />
         </section>
 
         <BangleDivider />
@@ -187,9 +187,7 @@ export default function Home() {
         {/* MEN'S */}
         <section id="section-13" className="scroll-mt-28">
           <SectionHeader eyebrow="For him" title="Men's Collection" viewAllHref="/shop?category=mens" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {byCat("mens", 4).map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <ProductRow products={byCat("mens", 6)} />
         </section>
       </div>
 
@@ -200,21 +198,25 @@ export default function Home() {
             <div className="eyebrow mb-2">Real stories</div>
             <h2 className="font-display text-3xl sm:text-4xl">Let customers speak for us</h2>
           </div>
-          <div className="grid sm:grid-cols-3 gap-6">
-            {[
+          <ResponsiveRow
+            items={[
               { name: "Ananya R.", text: "The anti-tarnish claim is real — I've worn my earrings daily for six months, still gold." },
               { name: "Priya S.", text: "Ordered the bracelet stack for my sister's birthday. Packaging felt genuinely premium." },
               { name: "Meera K.", text: "Customer support helped me track and re-deliver my order within a day. Excellent service." },
-            ].map((t) => (
-              <div key={t.name} className="bg-ivory rounded-sm p-6 border border-taupe">
+            ]}
+            keyFn={(t) => t.name}
+            gridClassName="sm:grid-cols-3"
+            itemWidthClass="w-[80vw]"
+            renderItem={(t) => (
+              <div className="bg-ivory rounded-sm p-6 border border-taupe h-full">
                 <div className="flex gap-1 text-bronze mb-3">
-                  {Array.from({ length: 5 }).map((_, i) => <Star key={i} size={14} fill="#A87C4F" />)}
+                  {Array.from({ length: 5 }).map((_, i) => <Star key={i} size={14} fill="#B98D3E" />)}
                 </div>
                 <p className="text-sm text-ink/80 leading-relaxed mb-4">&ldquo;{t.text}&rdquo;</p>
                 <div className="text-xs eyebrow">{t.name}</div>
               </div>
-            ))}
-          </div>
+            )}
+          />
         </div>
       </section>
     </div>
