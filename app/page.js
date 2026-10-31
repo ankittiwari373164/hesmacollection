@@ -1,11 +1,11 @@
 "use client";
-"use client";
 import Link from "next/link";
 import { CATEGORIES, BUNDLES } from "@/lib/seed";
 import ProductCard from "@/components/ProductCard";
 import ResponsiveRow from "@/components/ResponsiveRow";
 import { SectionHeader, BangleDivider } from "@/components/Section";
 import { useStore } from "@/lib/store";
+import { onImgError } from "@/lib/imgFallback";
 import { Star } from "lucide-react";
 
 function ProductRow({ products }) {
@@ -28,30 +28,31 @@ export default function Home() {
   return (
     <div>
       {/* HERO */}
-      <section className="relative bg-gradient-to-br from-parchment via-ivory to-taupe/60 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 py-16 sm:py-24 grid md:grid-cols-2 gap-12 items-center">
+      <section className="relative bg-gradient-to-br from-parchment via-ivory to-taupe/50 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 py-10 sm:py-14 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <div className="eyebrow mb-4">Send love, wear it forever</div>
-            <h1 className="font-display text-5xl sm:text-6xl leading-[1.05] mb-6">
+            <div className="eyebrow mb-3">Send love, wear it forever</div>
+            <h1 className="font-display text-4xl sm:text-5xl leading-[1.1] mb-4">
               Buy any <span className="italic text-oxblood">4 bracelets</span> &amp; get a tennis bracelet, free.
             </h1>
-            <p className="text-ink/70 max-w-md mb-8 leading-relaxed">
+            <p className="text-ink/70 max-w-md mb-6 leading-relaxed text-sm sm:text-base">
               Anti-tarnish, 18k gold-plated jewellery designed for everyday wear — stack it, gift it, keep it forever.
             </p>
-            <div className="flex gap-4">
-              <Link href="/shop?category=bracelets" className="btn-primary px-7 py-3 text-sm tracking-wide rounded-sm">Shop the offer</Link>
-              <Link href="/shop" className="btn-outline px-7 py-3 text-sm tracking-wide rounded-sm">Explore all</Link>
+            <div className="flex gap-3">
+              <Link href="/shop?category=bracelets" className="btn-primary px-6 py-2.5 text-sm tracking-wide rounded-sm">Shop the offer</Link>
+              <Link href="/shop" className="btn-outline px-6 py-2.5 text-sm tracking-wide rounded-sm">Explore all</Link>
             </div>
           </div>
           <div className="relative">
             <img
               src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=1200&auto=format&fit=crop"
+              onError={onImgError}
               alt="Model wearing Hesma bracelets"
-              className="rounded-sm w-full aspect-[4/5] object-cover shadow-xl"
+              className="rounded-sm w-full aspect-[16/10] md:aspect-[4/3] object-cover shadow-xl"
             />
-            <div className="absolute -bottom-6 -left-6 bg-ivory border border-taupe rounded-sm p-4 hidden sm:block shadow-lg">
-              <div className="text-xs eyebrow mb-1">Total gifts worth</div>
-              <div className="font-display text-2xl text-oxblood">₹4,999/-</div>
+            <div className="absolute -bottom-5 -left-5 bg-ivory border border-taupe rounded-sm p-3 hidden sm:block shadow-lg">
+              <div className="text-[10px] eyebrow mb-1">Total gifts worth</div>
+              <div className="font-display text-xl text-oxblood">₹4,999/-</div>
             </div>
           </div>
         </div>
@@ -96,7 +97,7 @@ export default function Home() {
             renderItem={(c) => (
               <Link href={`/shop?category=${c.slug}`} className="group text-center block">
                 <div className="overflow-hidden rounded-full aspect-square">
-                  <img src={c.img} alt={c.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <img src={c.img} onError={onImgError} alt={c.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 </div>
                 <div className="text-xs mt-3 leading-tight">{c.name} →</div>
               </Link>
