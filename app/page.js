@@ -31,16 +31,16 @@ export default function Home() {
       <section className="relative bg-gradient-to-br from-parchment via-ivory to-taupe/50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 py-10 sm:py-14 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <div className="eyebrow mb-3">Send love, wear it forever</div>
+            <div className="eyebrow mb-3">Hesma Collection</div>
             <h1 className="font-display text-4xl sm:text-5xl leading-[1.1] mb-4">
-              Buy any <span className="italic text-oxblood">4 bracelets</span> &amp; get a tennis bracelet, free.
+              Jewellery made to be <span className="italic text-oxblood">worn every day</span>, not kept for someday.
             </h1>
             <p className="text-ink/70 max-w-md mb-6 leading-relaxed text-sm sm:text-base">
-              Anti-tarnish, 18k gold-plated jewellery designed for everyday wear — stack it, gift it, keep it forever.
+              Anti-tarnish, 18k gold-plated pieces crafted for everyday elegance — stack it, gift it, keep it forever.
             </p>
             <div className="flex gap-3">
-              <Link href="/shop?category=bracelets" className="btn-primary px-6 py-2.5 text-sm tracking-wide rounded-sm">Shop the offer</Link>
-              <Link href="/shop" className="btn-outline px-6 py-2.5 text-sm tracking-wide rounded-sm">Explore all</Link>
+              <Link href="/shop" className="btn-primary px-6 py-2.5 text-sm tracking-wide rounded-sm">Shop Now</Link>
+              <Link href="/shop?category=gift-hampers" className="btn-outline px-6 py-2.5 text-sm tracking-wide rounded-sm">Gift Collections</Link>
             </div>
           </div>
           <div className="relative">
